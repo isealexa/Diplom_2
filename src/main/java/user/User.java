@@ -17,6 +17,11 @@ public class User {
     private String password;
     private String name;
 
+    public User(String email, String password){
+        this.email = email;
+        this.password = password;
+    }
+
     public static User getRandomUser(){
         Faker faker = new Faker();
         return new User(faker.name().firstName() + "mail@testDomain.test",

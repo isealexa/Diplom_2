@@ -35,10 +35,9 @@ public class LoginUserTest {
         String expectedEmail = email.toLowerCase(Locale.ROOT);
         String expectedName = user.getName();
 
-        ValidatableResponse register = userClient.register(user);
-        String oldToken = register.extract().body().as(Token.class).getAccessToken();
+        userClient.register(user);
 
-        ValidatableResponse response = userClient.login(new User(email, password, null));
+        ValidatableResponse response = userClient.login(new User(email, password));
         int actualCode = response.extract().statusCode();
         Token body = response.extract().body().as(Token.class);
         boolean status = body.isSuccess();
@@ -52,7 +51,6 @@ public class LoginUserTest {
         assertEquals("В ответе вернулось некорректное значение для поля email", expectedEmail, actualEmail);
         assertEquals("В ответе вернулось некорректное значение для поля name", expectedName, actualName);
         assertFalse("В ответе вернулось пустое значение в поле accessToken", body.getAccessToken().isBlank());
-        assertNotEquals("После логина токен не обновился", oldToken, token);
         assertTrue("В ответе поле accessToken должно было начинаться с Bearer", body.getAccessToken().startsWith("Bearer"));
         assertFalse("В ответе вернулось пустое значение в поле refreshToken", body.getRefreshToken().isBlank());
     }
