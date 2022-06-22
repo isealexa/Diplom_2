@@ -34,17 +34,37 @@ public class UserTest {
         ValidatableResponse response = userClient.register(user);
         int actualCode = response.extract().statusCode();
         Token body = response.extract().body().as(Token.class);
-        boolean actualStatus = body.isSuccess();
+        boolean status = body.isSuccess();
         String actualEmail = body.getUser().getEmail();
         String actualName = body.getUser().getName();
         token = body.getAccessToken();
 
-        assertEquals("В ответе вернулся другой код состояние", expectedCode, actualCode);
-        assertTrue("В ответе вернулось некорректное значение для поля success", actualStatus);
+        assertNotNull("В ответе вернулось пустое Body", body);
+        assertEquals("В ответе вернулся другой код состояния", expectedCode, actualCode);
+        assertTrue("В ответе вернулось некорректное значение для поля success", status);
         assertEquals("В ответе вернулось некорректное значение для поля email", expectedEmail, actualEmail);
         assertEquals("В ответе вернулось некорректное значение для поля name", expectedName, actualName);
-        assertFalse("В ответе вернулось некорректное значение для поля accessToken", body.getAccessToken().isBlank());
+        assertFalse("В ответе вернулось пустое значение в поле accessToken", body.getAccessToken().isBlank());
         assertTrue("В ответе поле accessToken должно было начинаться с Bearer", body.getAccessToken().startsWith("Bearer"));
-        assertFalse("В ответе вернулось некорректное значение для поля refreshToken", body.getRefreshToken().isBlank());
+        assertFalse("В ответе вернулось пустое значение в поле refreshToken", body.getRefreshToken().isBlank());
+    }
+    @Test
+    public void registerTheSameUserTwiceHasToReturnError() {
+        User user = User.getRandomUser(6);
+        int expectedCode = 403;
+        String expectedMessage = "User already exists";
+
+        token = userClient.register(user).extract().body().as(Token.class).getAccessToken();
+        ValidatableResponse response = userClient.register(user);
+        int actualCode = response.extract().statusCode();
+        Token body = response.extract().body().as(Token.class);
+        boolean status = body.isSuccess();
+        String actualMessage = body.getMessage();
+
+        assertNotNull("В ответе вернулось пустое Body", body);
+        assertEquals("В ответе вернулся другой код состояния", expectedCode, actualCode);
+        assertFalse("В ответе вернулось некорректное значение для поля success", status);
+        assertFalse("В ответе вернулось пустое значение в поле message", actualMessage.isBlank());
+        assertEquals("В ответе вернулось некорректное значение для поля message", expectedMessage, actualMessage);
     }
 }
