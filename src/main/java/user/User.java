@@ -43,4 +43,23 @@ public class User {
         }
         return new User(email, password, name);
     }
+
+    public static User getNullField(String field){
+        Faker faker = new Faker();
+        String email = faker.name().firstName() + "mail@testDomain.test";
+        String password = RandomStringUtils.randomAlphanumeric(6);
+        String name = faker.name().firstName();
+
+        switch (field){
+            case "email":
+                email = null;
+                break;
+            case "password":
+                password = null;
+                break;
+            default:
+                name = null;
+        }
+        return new User(email, password, name);
+    }
 }

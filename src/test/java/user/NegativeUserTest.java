@@ -55,4 +55,21 @@ public class NegativeUserTest {
         assertFalse("В ответе вернулось пустое значение в поле message", actualMessage.isBlank());
         assertEquals("В ответе вернулось некорректное значение для поля message", expectedMessage, actualMessage);
     }
+
+    @Test
+    public void registerUserWithNullFieldHasToReturnError() {
+        User user = User.getNullField(field);
+
+        ValidatableResponse response = userClient.register(user);
+        int actualCode = response.extract().statusCode();
+        Token body = response.extract().body().as(Token.class);
+        boolean status = body.isSuccess();
+        String actualMessage = body.getMessage();
+
+        assertNotNull("В ответе вернулось пустое Body", body);
+        assertEquals("В ответе вернулся другой код состояния", expectedCode, actualCode);
+        assertFalse("В ответе вернулось некорректное значение для поля success", status);
+        assertFalse("В ответе вернулось пустое значение в поле message", actualMessage.isBlank());
+        assertEquals("В ответе вернулось некорректное значение для поля message", expectedMessage, actualMessage);
+    }
 }
