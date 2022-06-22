@@ -9,7 +9,7 @@ import java.util.Locale;
 
 import static org.junit.Assert.*;
 
-public class UserTest {
+public class RegisterUserTest {
 
     private UserClient userClient;
     private String token;

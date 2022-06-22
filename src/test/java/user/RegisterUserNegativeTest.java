@@ -10,11 +10,11 @@ import org.junit.runners.Parameterized;
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
-public class NegativeUserTest {
+public class RegisterUserNegativeTest {
 
     private final String field;
 
-    public NegativeUserTest(String field){
+    public RegisterUserNegativeTest(String field){
         this.field = field;
     }
 
