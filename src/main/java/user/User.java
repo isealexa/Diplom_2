@@ -22,6 +22,10 @@ public class User {
         this.password = password;
     }
 
+    public User(String email){
+        this.email = email;
+    }
+
     public static User getRandomUser(){
         Faker faker = new Faker();
         return new User(faker.name().firstName() + "mail@testDomain.test",

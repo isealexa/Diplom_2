@@ -26,7 +26,7 @@ public class LoginUserTest {
     }
 
     @Test
-    public void registerNewUserHasToCreateUser(){
+    public void loginExistingUserHasToReturnSuccessLogin(){
         User user = User.getRandomUser();
         String email = user.getEmail();
         String password = user.getPassword();
