@@ -17,11 +17,30 @@ public class User {
     private String password;
     private String name;
 
-    public static User getRandomUser(int countSymbol){
+    public static User getRandomUser(){
         Faker faker = new Faker();
-        return  new User(RandomStringUtils.randomAlphanumeric(countSymbol) + "@testDomain.test",
-                RandomStringUtils.randomAlphanumeric(countSymbol),
+        return new User(faker.name().firstName() + "mail@testDomain.test",
+                RandomStringUtils.randomAlphanumeric(6),
                 faker.name().firstName()
         );
+    }
+
+    public static User getEmptyField(String field){
+        Faker faker = new Faker();
+        String email = faker.name().firstName() + "mail@testDomain.test";
+        String password = RandomStringUtils.randomAlphanumeric(6);
+        String name = faker.name().firstName();
+
+        switch (field){
+            case "email":
+                email = "";
+                break;
+            case "password":
+                password = "";
+                break;
+            default:
+                name = "";
+        }
+        return new User(email, password, name);
     }
 }

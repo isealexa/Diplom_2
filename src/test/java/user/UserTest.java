@@ -26,7 +26,7 @@ public class UserTest {
 
     @Test
     public void registerNewUserHasToCreateUser(){
-        User user = User.getRandomUser(6);
+        User user = User.getRandomUser();
         int expectedCode = 200;
         String expectedEmail = user.getEmail().toLowerCase(Locale.ROOT);
         String expectedName = user.getName();
@@ -50,7 +50,7 @@ public class UserTest {
     }
     @Test
     public void registerTheSameUserTwiceHasToReturnError() {
-        User user = User.getRandomUser(6);
+        User user = User.getRandomUser();
         int expectedCode = 403;
         String expectedMessage = "User already exists";
 
