@@ -27,7 +27,6 @@ public class RegisterUserNegativeTest {
         };
     }
 
-
     private UserClient userClient;
     private int expectedCode;
     private String expectedMessage;
