@@ -20,7 +20,7 @@ public class RegisterUserTest {
     }
 
     @After
-    public void clear(){
+    public void clean(){
         userClient.delete(token);
     }
 
