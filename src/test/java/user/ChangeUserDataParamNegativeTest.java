@@ -28,13 +28,13 @@ public class ChangeUserDataParamNegativeTest {
         this.description = description;
     }
 
-    @Parameterized.Parameters(name = "The test {index} checks patch request to change users data with {4}")
+    @Parameterized.Parameters(name = "The test {index} checks patch request to change users data with {3}")
     public static Object[][] getNegativeToken(){
         return new Object[][]{
                 {403, "jwt expired", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYjRiNGUxOTNlYmMyMDAxYjQ5NGU2NiIsImlhdCI6MTY1NjAwOTk1MywiZXhwIjoxNjU2MDExMTUzfQ.Gqj9MR37y7R3_ozX9RdVNY8q1SSXagZPEtj_Zl2y99E", "expired token"},
                 {403, "jwt malformed", "incorrect token", "incorrect token"},
-                {401, "You should be authorised", true,  "", "empty token"},
-                {401, "You should be authorised", true,  null, "null token"},
+                {401, "You should be authorised",  "", "empty token"},
+                {401, "You should be authorised",  null, "null token"},
         };
     }
 

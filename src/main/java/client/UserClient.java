@@ -43,6 +43,14 @@ public class UserClient extends RestAssuredClient{
                 .then().log().all();
     }
 
+    public ValidatableResponse changeUserWithoutToken(String data) {
+        return reqSpec
+                .body(data)
+                .when()
+                .patch(USER)
+                .then().log().all();
+    }
+
     public ValidatableResponse delete(String token) {
         return reqSpec
                 .header("Authorization", token)
