@@ -9,7 +9,6 @@ public class UserClient extends RestAssuredClient{
     private final String REGISTER = AUTH + "/register";
     private final String LOGIN = AUTH + "/login";
     private final String USER = AUTH + "/user";
-    private final String TOKEN = AUTH + "/token";
 
     public ValidatableResponse register(User user) {
         return reqSpec
@@ -24,6 +23,23 @@ public class UserClient extends RestAssuredClient{
                 .body(user)
                 .when()
                 .post(LOGIN)
+                .then().log().all();
+    }
+
+    public ValidatableResponse getUserData(String token) {
+        return reqSpec
+                .header("Authorization", token)
+                .when()
+                .get(USER)
+                .then().log().all();
+    }
+
+    public ValidatableResponse changeUser(String data, String token) {
+        return reqSpec
+                .header("Authorization", token)
+                .body(data)
+                .when()
+                .patch(USER)
                 .then().log().all();
     }
 

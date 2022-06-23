@@ -2,7 +2,6 @@ package user;
 
 import client.UserClient;
 import io.restassured.response.ValidatableResponse;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,11 +17,6 @@ public class LoginUserTest {
     @Before
     public void setUp() {
         userClient = new UserClient();
-    }
-
-    @After
-    public void clean(){
-        userClient.delete(token);
     }
 
     @Test
@@ -53,5 +47,6 @@ public class LoginUserTest {
         assertFalse("В ответе вернулось пустое значение в поле accessToken", body.getAccessToken().isBlank());
         assertTrue("В ответе поле accessToken должно было начинаться с Bearer", body.getAccessToken().startsWith("Bearer"));
         assertFalse("В ответе вернулось пустое значение в поле refreshToken", body.getRefreshToken().isBlank());
+        userClient.delete(token);
     }
 }

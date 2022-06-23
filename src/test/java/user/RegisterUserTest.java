@@ -40,8 +40,8 @@ public class RegisterUserTest {
         token = body.getAccessToken();
 
         //проверка ответа на запрос о регистрации пользовтаеля
-        checkResponse(body, expectedCode, actualCode, status);
-        checkData(expectedEmail, actualEmail, expectedName, actualName, body);
+        checkResponse(body, expectedCode, actualCode);
+        checkData(status, expectedEmail, actualEmail, expectedName, actualName, body);
         checkUserExist(token); //убедиться, что юзер действительно есть в базе
     }
 
@@ -59,8 +59,8 @@ public class RegisterUserTest {
         boolean status = body.isSuccess();
         String actualMessage = body.getMessage();
 
-        checkResponse(body, expectedCode, actualCode, status);
-        checkErrorMessage(expectedMessage, actualMessage);
+        checkResponse(body, expectedCode, actualCode);
+        checkErrorMessage(status, expectedMessage, actualMessage);
     }
 
     @Test
@@ -84,18 +84,18 @@ public class RegisterUserTest {
         token = body.getAccessToken();
 
         //проверка ответа на запрос о регистрации пользовтаеля
-        checkResponse(body, expectedCode, actualCode, status);
-        checkData(expectedEmail, actualEmail, expectedName, actualName, body);
+        checkResponse(body, expectedCode, actualCode);
+        checkData(status, expectedEmail, actualEmail, expectedName, actualName, body);
         checkUserExist(token); //убедиться, что юзер действительно есть в базе
     }
 
-    public void checkResponse(Token body, int  expectedCode, int actualCode, boolean status){
+    public void checkResponse(Token body, int  expectedCode, int actualCode){
         assertNotNull("В ответе вернулось пустое Body", body);
         assertEquals("В ответе вернулся другой код состояния", expectedCode, actualCode);
-        assertTrue("В ответе вернулось некорректное значение для поля success", status);
     }
 
-    public void checkData(String  expectedEmail, String actualEmail, String expectedName, String actualName, Token body){
+    public void checkData(boolean status, String  expectedEmail, String actualEmail, String expectedName, String actualName, Token body){
+        assertTrue("В ответе вернулось некорректное значение для поля success", status);
         assertEquals("В ответе вернулось некорректное значение для поля email", expectedEmail, actualEmail);
         assertEquals("В ответе вернулось некорректное значение для поля name", expectedName, actualName);
         assertFalse("В ответе вернулось пустое значение в поле accessToken", body.getAccessToken().isBlank());
@@ -108,7 +108,8 @@ public class RegisterUserTest {
         assertTrue("Пользователь не был зарегистрирован", userExist);
     }
 
-    public void checkErrorMessage(String expectedMessage, String actualMessage){
+    public void checkErrorMessage(boolean status, String expectedMessage, String actualMessage){
+        assertFalse("В ответе вернулось некорректное значение для поля success", status);
         assertFalse("В ответе вернулось пустое значение в поле message", actualMessage.isBlank());
         assertEquals("В ответе вернулось некорректное значение для поля message", expectedMessage, actualMessage);
     }

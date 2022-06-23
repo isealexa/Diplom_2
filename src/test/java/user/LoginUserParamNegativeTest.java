@@ -2,17 +2,37 @@ package user;
 
 import client.UserClient;
 import io.restassured.response.ValidatableResponse;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import static org.junit.Assert.*;
 
-public class LoginUserNegativeTest {
+@RunWith(Parameterized.class)
+public class LoginUserParamNegativeTest {
+
+    private final String data;
+
+    public LoginUserParamNegativeTest(String data){
+        this.data = data;
+    }
+
+    @Parameterized.Parameters(name = "The test {index} checks user login with incorrect field: {0}")
+    public static Object[][] getLoginUserParam(){
+        return new Object[][] {
+                {"justEmail"},
+                {"withoutEmail"},
+                {"incorrectPassword"},
+        };
+    }
 
     private UserClient userClient;
     private User user;
     private int expectedCode;
     private String expectedMessage;
+    private String token;
 
     @Before
     public void setUp() {
@@ -22,25 +42,36 @@ public class LoginUserNegativeTest {
         expectedMessage = "email or password are incorrect";
     }
 
-    @Test
-    public void loginIsNotExistingUserHasToReturnError(){
-        User userData = new User("userDoesNtExist@testDomain.test", "qwe456");
-        ValidatableResponse response = userClient.login(userData);
-        checkResponse(response);
+    @After
+    public void clean(){
+        userClient.delete(token);
     }
 
     @Test
-    public void  loginDeletedUserHasToReturnError(){
-        String email = user.getEmail();
-        String password = user.getPassword();
-        User userData = new User(email, password);
+    public void  loginExistingUserWithIncorrectFieldHasToReturnError(){
+        User userData = getUserData(data);
 
         ValidatableResponse register = userClient.register(user);
-        String token = register.extract().body().as(Token.class).getAccessToken();
-        userClient.delete(token);
-
+        token = register.extract().body().as(Token.class).getAccessToken();
         ValidatableResponse response = userClient.login(userData);
+
         checkResponse(response);
+    }
+
+    public User getUserData(String data){
+        User userData = null;
+
+        switch (data) {
+            case "justEmail":
+                userData = new User(user.getEmail());
+                break;
+            case "withoutEmail":
+                userData = new User(null, user.getPassword(), user.getName());
+                break;
+            case "incorrectPassword":
+                userData = new User(user.getEmail(), "incorrect");
+        }
+        return userData;
     }
 
     public void checkResponse( ValidatableResponse response){
