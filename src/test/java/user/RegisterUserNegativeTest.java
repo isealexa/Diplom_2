@@ -1,6 +1,9 @@
 package user;
 
 import client.UserClient;
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +21,7 @@ public class RegisterUserNegativeTest {
         this.field = field;
     }
 
-    @Parameterized.Parameters(name = "The test {index} checks error to response for register user with empty {0}")
+    @Parameterized.Parameters(name = "The test {index} checks error to response for register user with empty or null {0}")
     public static Object[][] getNegativeUserData() {
         return new Object[][] {
                 {"email"},
@@ -32,6 +35,7 @@ public class RegisterUserNegativeTest {
     private String expectedMessage;
 
     @Before
+    @Step("Set up client and expected")
     public void setUp() {
         userClient = new UserClient();
         expectedCode = 403;
@@ -39,19 +43,39 @@ public class RegisterUserNegativeTest {
     }
 
     @Test
+    @DisplayName("Register user with empty field has to return error")
+    @Description("This param tests checks getting error when push post-request to register user with one empty field")
     public void registerUserWithEmptyFieldHasToReturnError() {
-        User user = User.getEmptyField(field);
-        ValidatableResponse response = userClient.register(user);
+        User user = getEmptyField();
+        ValidatableResponse response = tryToRegister(user);
         checkResponse(response);
     }
 
     @Test
+    @DisplayName("Register user with null field has to return error")
+    @Description("This param tests checks getting error when push post-request to register user with one null field")
     public void registerUserWithNullFieldHasToReturnError() {
-        User user = User.getNullField(field);
-        ValidatableResponse response = userClient.register(user);
+        User user = getNullField();
+        ValidatableResponse response = tryToRegister(user);
         checkResponse(response);
     }
 
+    @Step("Getting one empty field")
+    public User getEmptyField(){
+        return User.getEmptyField(field);
+    }
+
+    @Step("Getting one null field")
+    public User getNullField(){
+        return User.getNullField(field);
+    }
+
+    @Step("Try to register and get response")
+    public ValidatableResponse tryToRegister(User user){
+        return userClient.register(user);
+    }
+
+    @Step("Check response: waiting for 403 status code and error message")
     public void checkResponse(ValidatableResponse response){
         int actualCode = response.extract().statusCode();
         Token body = response.extract().body().as(Token.class);

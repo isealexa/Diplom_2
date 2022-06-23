@@ -43,7 +43,7 @@ public class ChangeUserDataParamNegativeTest {
     String token;
 
     @Before
-    @Step("Set up test data")
+    @Step("Set up client and test data")
     public void setUp(){
         userClient = new UserClient();
         User user = User.getRandomUser();

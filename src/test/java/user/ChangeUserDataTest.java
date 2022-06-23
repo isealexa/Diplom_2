@@ -2,6 +2,9 @@ package user;
 
 import client.UserClient;
 import com.github.javafaker.Faker;
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
@@ -47,6 +50,7 @@ public class ChangeUserDataTest {
     private String expectedName;
 
     @Before
+    @Step("Set up client, expected and test data")
     public void setUp() {
         userClient = new UserClient();
         user = User.getRandomUser();
@@ -56,11 +60,14 @@ public class ChangeUserDataTest {
     }
 
     @After
+    @Step("Clean test data")
     public void clean(){
         userClient.delete(token);
     }
 
     @Test
+    @DisplayName("Any field can be changed")
+    @Description("Positive param test for update user data checks that any users field can be changed")
     public void changeUserDataReturnSuccessTrue(){
         String json = getData(newData, email, password, name);
         token = userClient.register(user).extract().path("accessToken");
@@ -71,8 +78,9 @@ public class ChangeUserDataTest {
         checkSuccessUpdateUserData(expectedEmail, expectedPassword, expectedName); //логинимся с новыми данными, чтобы убедиться, что данные действительно обновились
     }
 
+    @Step("Getting users data for update")
     public String getData(String data, String email, String password, String name){
-        String json = null;
+        String json;
         Faker faker = new Faker();
         String newEmail = faker.name().username().toLowerCase(Locale.ROOT)+ "@test.test";
         String newPassword = RandomStringUtils.randomAlphanumeric(6);
@@ -119,6 +127,7 @@ public class ChangeUserDataTest {
         return json;
     }
 
+    @Step("Checking response: body, status code, email and name")
     public void checkResponse(ValidatableResponse response, String email, String name){
         Token body = response.extract().body().as(Token.class);
         String actualEmail = body.getUser().getEmail();
@@ -132,6 +141,7 @@ public class ChangeUserDataTest {
         assertEquals("В ответе вернулось некорректное значение для поля name", name, actualName);
     }
 
+    @Step("Checking that changing users data were indeed updated")
     public void checkSuccessUpdateUserData(String email, String password, String name){
         ValidatableResponse response = userClient.login(new User(email, password));
         Token body = response.extract().body().as(Token.class);

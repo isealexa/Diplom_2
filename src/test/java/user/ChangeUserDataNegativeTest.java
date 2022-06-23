@@ -22,7 +22,7 @@ public class ChangeUserDataNegativeTest {
     private String expectedMessage;
 
     @Before
-    @Step("Set up test data")
+    @Step("Set up client, expected and test data")
     public void setUp(){
         userClient = new UserClient();
         User user = User.getRandomUser();
@@ -57,11 +57,6 @@ public class ChangeUserDataNegativeTest {
     public String getAnotherUserEmail(Token anotherUserData){
         String newEmail = anotherUserData.getUser().getEmail();
         return "{\"email\":\"" + newEmail + "\"}";
-    }
-
-    @Step("Getting correct token")
-    public String getToken(UserClient userClient, User user){
-        return userClient.register(user).extract().path("accessToken");
     }
 
     @Step("Push patch request to change users data with another user email")

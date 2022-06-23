@@ -1,6 +1,9 @@
 package user;
 
 import client.UserClient;
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +18,7 @@ public class LoginUserNegativeTest {
     private String expectedMessage;
 
     @Before
+    @Step("Set up client, expected and test data")
     public void setUp() {
         user = User.getRandomUser();
         userClient = new UserClient();
@@ -23,27 +27,47 @@ public class LoginUserNegativeTest {
     }
 
     @Test
-    public void loginIsNotExistingUserHasToReturnError(){
+    @DisplayName("Login with non-existent User")
+    @Description("The test checks get error when push post request to login with user with doesn't exist")
+    public void loginNonExistentUserHasToReturnError(){
         User userData = new User("userDoesNtExist@testDomain.test", "qwe456");
-        ValidatableResponse response = userClient.login(userData);
+        ValidatableResponse response = tryToLogin(userData);
         checkResponse(response);
     }
 
     @Test
-    public void  loginDeletedUserHasToReturnError(){
+    @DisplayName("Login with deleted user")
+    @Description("The test checks get error when push post request to login with user with was deleted")
+    public void loginDeletedUserHasToReturnError(){
         String email = user.getEmail();
         String password = user.getPassword();
         User userData = new User(email, password);
 
-        ValidatableResponse register = userClient.register(user);
-        String token = register.extract().body().as(Token.class).getAccessToken();
-        userClient.delete(token);
+        ValidatableResponse thisUser = register();
+        delete(thisUser);
 
-        ValidatableResponse response = userClient.login(userData);
+        ValidatableResponse response = tryToLogin(userData);
         checkResponse(response);
     }
 
-    public void checkResponse( ValidatableResponse response){
+    @Step("Register user")
+    public ValidatableResponse register(){
+       return userClient.register(user);
+    }
+
+    @Step("Delete this user")
+    public void delete(ValidatableResponse register){
+        String token = register.extract().body().as(Token.class).getAccessToken();
+        userClient.delete(token);
+    }
+
+    @Step("Try to login with this user")
+    public ValidatableResponse tryToLogin(User userData){
+        return userClient.login(userData);
+    }
+
+    @Step("Check response")
+    public void checkResponse(ValidatableResponse response){
         int actualCode = response.extract().statusCode();
         Token body = response.extract().body().as(Token.class);
         boolean status = body.isSuccess();

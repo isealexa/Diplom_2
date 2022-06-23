@@ -1,6 +1,9 @@
 package user;
 
 import client.UserClient;
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
@@ -35,6 +38,7 @@ public class LoginUserParamNegativeTest {
     private String token;
 
     @Before
+    @Step("Set up client and expected")
     public void setUp() {
         user = User.getRandomUser();
         userClient = new UserClient();
@@ -43,21 +47,29 @@ public class LoginUserParamNegativeTest {
     }
 
     @After
+    @Step("Clean test data")
     public void clean(){
         userClient.delete(token);
     }
 
     @Test
-    public void  loginExistingUserWithIncorrectFieldHasToReturnError(){
+    @DisplayName("Login existent user with incorrect field has to return error")
+    @Description("This param tests checks getting error when push post-request to login user with incorrect data: with only email or without email or with incorrect password")
+    public void  loginExistentUserWithIncorrectFieldHasToReturnError(){
         User userData = getUserData(data);
+        ValidatableResponse testUser = register();
+        token = testUser.extract().body().as(Token.class).getAccessToken();
 
-        ValidatableResponse register = userClient.register(user);
-        token = register.extract().body().as(Token.class).getAccessToken();
-        ValidatableResponse response = userClient.login(userData);
-
+        ValidatableResponse response = tryToLogin(userData);
         checkResponse(response);
     }
 
+    @Step("Register new test user")
+    public ValidatableResponse register(){
+        return userClient.register(user);
+    }
+
+    @Step("Get user incorrect data")
     public User getUserData(String data){
         User userData = null;
 
@@ -74,7 +86,13 @@ public class LoginUserParamNegativeTest {
         return userData;
     }
 
-    public void checkResponse( ValidatableResponse response){
+    @Step("Try to login and get response")
+    public ValidatableResponse tryToLogin(User userData){
+        return userClient.login(userData);
+    }
+
+    @Step("Check response: waiting for 401 status code and error message")
+    public void checkResponse(ValidatableResponse response){
         int actualCode = response.extract().statusCode();
         Token body = response.extract().body().as(Token.class);
         boolean status = body.isSuccess();
