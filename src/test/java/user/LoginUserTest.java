@@ -48,7 +48,7 @@ public class LoginUserTest {
         checkResponse(response, expectedCode, expectedEmail, expectedName);
     }
 
-    @Step("Getting random user data for test")
+    @Step("Get random user data for test")
     public User getUser(){
         return User.getRandomUser();
     }

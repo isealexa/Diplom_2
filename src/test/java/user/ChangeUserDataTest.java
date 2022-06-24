@@ -78,7 +78,7 @@ public class ChangeUserDataTest {
         checkSuccessUpdateUserData(expectedEmail, expectedPassword, expectedName); //логинимся с новыми данными, чтобы убедиться, что данные действительно обновились
     }
 
-    @Step("Getting users data for update")
+    @Step("Get users data for update")
     public String getData(String data, String email, String password, String name){
         String json;
         Faker faker = new Faker();
@@ -127,7 +127,7 @@ public class ChangeUserDataTest {
         return json;
     }
 
-    @Step("Checking response: body, status code, email and name")
+    @Step("Check response: body, status code, email and name")
     public void checkResponse(ValidatableResponse response, String email, String name){
         Token body = response.extract().body().as(Token.class);
         String actualEmail = body.getUser().getEmail();
@@ -141,7 +141,7 @@ public class ChangeUserDataTest {
         assertEquals("В ответе вернулось некорректное значение для поля name", name, actualName);
     }
 
-    @Step("Checking that changing users data were indeed updated")
+    @Step("Check that changing users data were indeed updated")
     public void checkSuccessUpdateUserData(String email, String password, String name){
         ValidatableResponse response = userClient.login(new User(email, password));
         Token body = response.extract().body().as(Token.class);

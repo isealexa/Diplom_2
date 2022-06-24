@@ -101,12 +101,12 @@ public class RegisterUserTest {
         checkUserExist(token); //убедиться, что юзер действительно есть в базе
     }
 
-    @Step("Getting random user data for test")
+    @Step("Get random user data for test")
     public User getUser(){
         return User.getRandomUser();
     }
 
-    @Step("Getting user with the same email")
+    @Step("Get user with the same email")
     public User getTheSameEmail(User user){
         return new User(user.getEmail(), "P@ssW0rd!", "TestName");
     }
@@ -123,13 +123,13 @@ public class RegisterUserTest {
         assertTrue("При удалении юзера в ответе вернулось некорректное значение для поля success", deletedResponse.extract().body().as(Token.class).isSuccess());
     }
 
-    @Step("Checking status code and body is not NULL in response")
+    @Step("Check status code and body is not NULL in response")
     public void checkResponse(Token body, int  expectedCode, int actualCode){
         assertNotNull("В ответе вернулось пустое Body", body);
         assertEquals("В ответе вернулся другой код состояния", expectedCode, actualCode);
     }
 
-    @Step("Checking body details: success status, email, name, token in response")
+    @Step("Check body details: success status, email, name, token in response")
     public void checkData(boolean status, String  expectedEmail, String actualEmail, String expectedName, String actualName, Token body){
         assertTrue("В ответе вернулось некорректное значение для поля success", status);
         assertEquals("В ответе вернулось некорректное значение для поля email", expectedEmail, actualEmail);
@@ -139,13 +139,13 @@ public class RegisterUserTest {
         assertFalse("В ответе вернулось пустое значение в поле refreshToken", body.getRefreshToken().isBlank());
     }
 
-    @Step("Checking user was really registered and exist in system")
+    @Step("Check user was really registered and exist in system")
     public void checkUserExist(String token){
         boolean userExist = userClient.getUserData(token).assertThat().statusCode(200).extract().path("success");
         assertTrue("Пользователь не был зарегистрирован", userExist);
     }
 
-    @Step("Checking status and error message in response")
+    @Step("Check status and error message in response")
     public void checkErrorMessage(boolean status, String expectedMessage, String actualMessage){
         assertFalse("В ответе вернулось некорректное значение для поля success", status);
         assertFalse("В ответе вернулось пустое значение в поле message", actualMessage.isBlank());

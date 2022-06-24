@@ -60,12 +60,12 @@ public class RegisterUserNegativeTest {
         checkResponse(response);
     }
 
-    @Step("Getting one empty field")
+    @Step("Get one empty field")
     public User getEmptyField(){
         return User.getEmptyField(field);
     }
 
-    @Step("Getting one null field")
+    @Step("Get one null field")
     public User getNullField(){
         return User.getNullField(field);
     }

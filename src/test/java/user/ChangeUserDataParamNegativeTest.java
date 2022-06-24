@@ -83,7 +83,7 @@ public class ChangeUserDataParamNegativeTest {
         return response;
     }
 
-    @Step("Checking response: waiting for error")
+    @Step("Check response: waiting for error")
     public void checkResponse(ValidatableResponse response, int expectedCode, String expectedMessage){
         int actualCode = response.extract().statusCode();
         Token body = response.extract().body().as(Token.class);
