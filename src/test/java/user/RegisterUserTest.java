@@ -139,7 +139,7 @@ public class RegisterUserTest {
         assertFalse("В ответе вернулось пустое значение в поле refreshToken", body.getRefreshToken().isBlank());
     }
 
-    @Step("Check user was really registered and exist in system")
+    @Step("Check user was really registered and exists in system")
     public void checkUserExist(String token){
         boolean userExist = userClient.getUserData(token).assertThat().statusCode(200).extract().path("success");
         assertTrue("Пользователь не был зарегистрирован", userExist);
