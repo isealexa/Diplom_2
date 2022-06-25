@@ -32,7 +32,6 @@ public class OrderNegativeParamTest {
                 {"", "with empty body request"},
                 {new BurgerComposition().getEmptyJson(), "with empty json body request"},
                 {new BurgerComposition().getNoIngredients(), "with empty incorrect list"},
-                {new BurgerComposition().getIncorrect(), "with incorrect ingredients"},
         };
     }
 
