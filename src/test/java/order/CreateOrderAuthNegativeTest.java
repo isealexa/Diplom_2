@@ -15,12 +15,12 @@ import user.User;
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
-public class CreateOrderNegativeTest {
+public class CreateOrderAuthNegativeTest {
 
     private final String order;
     private final String description;
 
-    public CreateOrderNegativeTest(String order, String description){
+    public CreateOrderAuthNegativeTest(String order, String description){
         this.order = order;
         this.description = description;
     }
