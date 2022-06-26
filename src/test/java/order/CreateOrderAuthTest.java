@@ -13,7 +13,7 @@ import user.User;
 
 import static org.junit.Assert.*;
 
-public class OrderFullFlowTest {
+public class CreateOrderAuthTest {
 
     private OrderClient orderClient;
     private String token;
@@ -89,7 +89,7 @@ public class OrderFullFlowTest {
         expectedOrderId =  order.get_id();
         expectedNumber = order.getNumber();
         expectedBurgerName = order.getName();
-        assertNotNull("В ответе вернулось пустое значение в поле id", expectedOrderId);
+        assertFalse("В ответе вернулось пустое значение в поле id", expectedOrderId.isBlank());
         assertNotNull("В ответе вернулось пустое значение в поле number", expectedNumber);
         assertNotEquals("Номер заказа не может быть равен 0",(Integer) 0, expectedNumber);
         assertFalse("В ответе вернулось пустое значение в поле name для названия бургера", expectedBurgerName.isBlank());
