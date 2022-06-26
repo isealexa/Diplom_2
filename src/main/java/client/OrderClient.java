@@ -9,14 +9,14 @@ public class OrderClient extends RestAssuredClient {
     private final String ORDERS =  "/orders";
 
     public ValidatableResponse getIngredients() {
-        return reqSpec
+        return getReqSpec()
                 .when()
                 .get(INGREDIENTS)
                 .then().log().all();
     }
 
     public ValidatableResponse createOrder(IngredientsIds order) {
-        return reqSpec
+        return getReqSpec()
                 .body(order)
                 .when()
                 .post(ORDERS)
@@ -24,7 +24,7 @@ public class OrderClient extends RestAssuredClient {
     }
 
     public ValidatableResponse createOrder(String token, String order) {
-        return reqSpec
+        return getReqSpec()
                 .header("Authorization", token)
                 .body(order)
                 .when()
@@ -33,7 +33,7 @@ public class OrderClient extends RestAssuredClient {
     }
 
     public ValidatableResponse createOrder(String order) {
-        return reqSpec
+        return getReqSpec()
                 .body(order)
                 .when()
                 .post(ORDERS)
@@ -41,14 +41,14 @@ public class OrderClient extends RestAssuredClient {
     }
 
     public ValidatableResponse createOrder() {
-        return reqSpec
+        return getReqSpec()
                 .when()
                 .post(ORDERS)
                 .then().log().all();
     }
 
     public ValidatableResponse getOrder(String token) {
-        return reqSpec
+        return getReqSpec()
                 .header("Authorization", token)
                 .when()
                 .get(ORDERS)

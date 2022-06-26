@@ -18,6 +18,6 @@ public class Order {
     private String name;
     private String createdAt;
     private String updatedAt;
-    private int number;
-    private int price;
+    private Integer number;
+    private Integer price;
 }
