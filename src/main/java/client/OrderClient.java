@@ -7,6 +7,7 @@ public class OrderClient extends RestAssuredClient {
 
     private final String INGREDIENTS = "/ingredients";
     private final String ORDERS =  "/orders";
+    private final String NUMBER = ORDERS + "/{number}";
 
     public ValidatableResponse getIngredients() {
         return getReqSpec()
@@ -59,6 +60,14 @@ public class OrderClient extends RestAssuredClient {
         return getReqSpec()
                 .when()
                 .get(ORDERS)
+                .then().log().all();
+    }
+
+    public ValidatableResponse getOrdersInfoBy(Integer number) {
+        return getReqSpec()
+                .pathParam("number", number)
+                .when()
+                .get(NUMBER)
                 .then().log().all();
     }
 }
