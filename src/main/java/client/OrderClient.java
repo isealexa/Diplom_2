@@ -25,6 +25,14 @@ public class OrderClient extends RestAssuredClient {
                 .then().log().all();
     }
 
+    public ValidatableResponse createOrder(IngredientsIds order) {
+        return reqSpec()
+                .body(order)
+                .when()
+                .post(ORDERS)
+                .then().log().all();
+    }
+
     public ValidatableResponse createOrder(String token, String order) {
         return reqSpec()
                 .header("Authorization", token)

@@ -91,6 +91,8 @@ public class OrderFullFlowTest {
         expectedBurgerName = order.getName();
         assertNotNull("В ответе вернулось пустое значение в поле id", expectedOrderId);
         assertNotNull("В ответе вернулось пустое значение в поле number", expectedNumber);
+        assertNotEquals("Номер заказа не может быть равен 0",(Integer) 0, expectedNumber);
+        assertFalse("В ответе вернулось пустое значение в поле name для названия бургера", expectedBurgerName.isBlank());
         assertEquals("Цена бургера не соотвествует ожидаемому", expectedPrice, order.getPrice());
         assertEquals("В заказе неправльно указан email пользователя", expectedUserEmail, order.getOwner().getEmail());
         assertEquals("В заказе неправильно указано имя пользователя", expectedUserName, order.getOwner().getName());
