@@ -40,11 +40,12 @@ public class UsersOrderTest {
     @Description("This tests checks getting success response and show user's order when push get-request with authorization to see user's order")
     public void getUsersOrderWithAuthorizationReturnSuccess(){
         String burger = new BurgerComposition().getSuperBurger();
+        String expectedName = new BurgerComposition().getName("super");
         ValidatableResponse order = createOrder(burger);
         String orderId = getId(order);
         Integer number = getNumber(order);
         ValidatableResponse response = getUserOrder();
-        check(response, orderId, number);
+        check(response, orderId, number, expectedName);
     }
 
     @Test
@@ -53,18 +54,6 @@ public class UsersOrderTest {
     public void getUsersNullOrderWithAuthorizationReturnSuccess(){
         ValidatableResponse response = getUserOrder();
         check(response);
-    }
-
-    @Test
-    @DisplayName("Get two user's orders with authorization return success")
-    @Description("This tests checks getting success response and show two user's orders when push get-request with authorization to see user's order")
-    public void getTwoUsersOrdersWithAuthorizationReturnSuccess(){
-        String burger = new BurgerComposition().getStandardBurger();
-        String secondBurger = new BurgerComposition().getBigBurger();
-        createOrder(burger);
-        createOrder(secondBurger);
-        ValidatableResponse response = getUserOrder();
-        check(response, 2);
     }
 
     @Test
@@ -130,7 +119,7 @@ public class UsersOrderTest {
     }
 
     @Step("Check response: status code, orders count, order id and number")
-    public void check(ValidatableResponse response, String orderId, Integer number){
+    public void check(ValidatableResponse response, String orderId, Integer number, String expectedName){
         assertNotNull("Вернулся невалидный ответ", response);
         assertTrue("В ответе вернулись некорректные код состояния ответа и статус заказа", response.assertThat().statusCode(200).extract().path("success"));
 
@@ -139,9 +128,9 @@ public class UsersOrderTest {
         assertEquals("Колиство заказазов в ответе не соотвествует ожидаемому", 1, orders.length);
         assertFalse("В ответе вернулся пустое значение в поле _id заказа", orders[0].get_id().isBlank());
         assertEquals("Поле id заказаза в ответе не соотвествует ожидаемому", orderId, orders[0].get_id());
-        assertEquals("Поле price цена заказа в ответе не соотвествует ожидаемому", number,  orders[0].getNumber());
+        assertEquals("Поле number номер заказа в ответе не соотвествует ожидаемому", number,  orders[0].getNumber());
+        assertEquals("Поле name название бургера в ответе не соотвествует ожидаемому", expectedName,  orders[0].getName());
     }
-
 
     @Step("Check response: status code, orders count")
     public void check(ValidatableResponse response, int count){
@@ -151,7 +140,5 @@ public class UsersOrderTest {
         Order[] orders = response.extract().body().as(Orders.class).getOrders();
         assertNotNull("В ответе вернулся пустой ответ ", orders);
         assertEquals("Колиство заказазов в ответе не соотвествует ожидаемому", count, orders.length);
-        assertFalse("В ответе вернулся пустое значение в поле _id заказа", orders[0].get_id().isBlank());
-        assertFalse("В ответе вернулся пустое значение в поле _id заказа", orders[1].get_id().isBlank());
     }
 }
