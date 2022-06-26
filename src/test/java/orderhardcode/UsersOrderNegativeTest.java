@@ -1,10 +1,11 @@
-package order;
+package orderhardcode;
 
 import client.OrderClient;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
+import order.Orders;
 import org.junit.Before;
 import org.junit.Test;
 

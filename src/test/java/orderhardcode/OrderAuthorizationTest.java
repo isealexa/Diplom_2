@@ -1,4 +1,4 @@
-package order;
+package orderhardcode;
 
 import client.OrderClient;
 import client.UserClient;
@@ -7,6 +7,9 @@ import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import models.BurgerComposition;
+import order.NewOrder;
+import order.OrderNumber;
+import order.OrdersByNumber;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
