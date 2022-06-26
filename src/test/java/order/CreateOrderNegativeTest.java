@@ -1,4 +1,4 @@
-package orderhardcode;
+package order;
 
 import client.OrderClient;
 import client.UserClient;
@@ -6,7 +6,6 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
-import order.NewOrder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,12 +15,12 @@ import user.User;
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
-public class OrderNegativeParamTest {
+public class CreateOrderNegativeTest {
 
     private final String order;
     private final String description;
 
-    public OrderNegativeParamTest(String order, String description){
+    public CreateOrderNegativeTest(String order, String description){
         this.order = order;
         this.description = description;
     }
