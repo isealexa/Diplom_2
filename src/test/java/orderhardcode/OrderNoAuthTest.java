@@ -6,7 +6,7 @@ import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import models.BurgerComposition;
-import order.NewOrder;
+import order.Order;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,7 +59,7 @@ public class OrderNoAuthTest {
     @Step("Check response fields")
     public void checkResponse(ValidatableResponse response){
         assertNotNull("Вернулся невалидный ответ", response);
-        NewOrder order = response.extract().body().as(NewOrder.class);
+        Order order = response.extract().body().as(Order.class);
         assertTrue("В ответе вернулись некорректные код состояние и статус заказа", response.assertThat().statusCode(200).extract().path("success"));
         assertNotNull("В ответе вернулось пустое значение в поле number", order.getOrder().getNumber());
         assertEquals("Название бургера не соотвествует ожидаемому", expectedName, order.getName());

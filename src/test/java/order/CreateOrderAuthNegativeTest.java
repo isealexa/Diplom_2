@@ -82,7 +82,7 @@ public class CreateOrderAuthNegativeTest {
     public void checkResponse(ValidatableResponse response){
         assertNotNull("Вернулся невалидный ответ", response);
         int actualCode = response.extract().statusCode();
-        String actualMessage = response.extract().body().as(NewOrder.class).getMessage();
+        String actualMessage = response.extract().body().as(Order.class).getMessage();
         assertEquals("код состояния в ответе не соотвестует ожидаемому", expectedCode, actualCode);
         assertFalse("Неверный статус в ответе на запрос", response.extract().path("success"));
         assertFalse("В ответе вернулось пустое сообщение об ошибке", actualMessage.isBlank());

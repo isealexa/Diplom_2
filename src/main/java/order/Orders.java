@@ -11,9 +11,12 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Orders {
 
-    private boolean success;
-    private Order[] orders;
-    private Integer total;
-    private Integer totalToday;
-    private String message;
+    private String[] ingredients;
+    private String _id;
+    private String owner;
+    private String status;
+    private String name;
+    private String createdAt;
+    private String updatedAt;
+    private Integer number;
 }

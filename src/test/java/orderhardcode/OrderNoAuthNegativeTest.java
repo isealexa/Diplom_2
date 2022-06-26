@@ -6,7 +6,7 @@ import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import models.BurgerComposition;
-import order.NewOrder;
+import order.Order;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,7 +61,7 @@ public class OrderNoAuthNegativeTest {
     public void checkResponse(ValidatableResponse response, int expectedCode, String expectedMessage){
         assertNotNull("Вернулся невалидный ответ", response);
         int actualCode = response.extract().statusCode();
-        String actualMessage = response.extract().body().as(NewOrder.class).getMessage();
+        String actualMessage = response.extract().body().as(Order.class).getMessage();
         assertEquals("код состояния в ответе не соотвестует ожидаемому", expectedCode, actualCode);
         assertFalse("Неверный статус в ответе на запрос", response.extract().path("success"));
         assertFalse("В ответе вернулось пустое сообщение об ошибке", actualMessage.isBlank());

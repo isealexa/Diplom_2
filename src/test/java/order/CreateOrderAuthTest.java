@@ -85,7 +85,7 @@ public class CreateOrderAuthTest {
         assertNotNull("Вернулся невалидный ответ", response);
         assertTrue("В ответе вернулись некорректные код состояние и статус заказа", response.assertThat().statusCode(200).extract().path("success"));
 
-        Order order = response.extract().body().as(NewOrder.class).getOrder();
+        NewOrder order = response.extract().body().as(Order.class).getOrder();
         expectedOrderId =  order.get_id();
         expectedNumber = order.getNumber();
         expectedBurgerName = order.getName();
@@ -102,7 +102,7 @@ public class CreateOrderAuthTest {
 
     @Step("Check order exists in system")
     public void checkOrderExist(){
-        OrderNumber order = orderClient.getOrdersInfoBy(expectedNumber).extract().body().as(OrdersByNumber.class).getOrders()[0];
+        Orders order = orderClient.getOrdersInfoBy(expectedNumber).extract().body().as(UsersOrders.class).getOrders()[0];
 
         assertEquals("Заказ не найден в системе", expectedOrderId, order.get_id());
         assertEquals("Номер заказа не соотвествует ожидаемому", expectedNumber, order.getNumber() );

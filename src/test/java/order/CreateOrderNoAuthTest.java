@@ -63,7 +63,7 @@ public class CreateOrderNoAuthTest {
         assertNotNull("Вернулся невалидный ответ", response);
         assertTrue("В ответе вернулись некорректные код состояние и статус заказа", response.assertThat().statusCode(200).extract().path("success"));
 
-        Order order = response.extract().body().as(NewOrder.class).getOrder();
+        NewOrder order = response.extract().body().as(Order.class).getOrder();
         assertNotNull("В ответе вернулось пустое значение в поле number", order.getNumber());
         assertNotEquals("Номер заказа не может быть равен 0",(Integer) 0, order.getNumber());
         assertFalse("В ответе вернулось пустое значение в поле name для названия бургера",order.getName().isBlank());

@@ -7,9 +7,9 @@ import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import models.BurgerComposition;
-import order.NewOrder;
-import order.OrderNumber;
-import order.OrdersByNumber;
+import order.Order;
+import order.Orders;
+import order.UsersOrders;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -85,7 +85,7 @@ public class OrderAuthorizationTest {
         assertNotNull("Вернулся невалидный ответ", response);
         assertTrue("В ответе вернулись некорректные код состояние и статус заказа", response.assertThat().statusCode(200).extract().path("success"));
 
-        NewOrder order = response.extract().body().as(NewOrder.class);
+        Order order = response.extract().body().as(Order.class);
         orderId =  order.getOrder().get_id();
         number = order.getOrder().getNumber();
         assertNotNull("В ответе вернулось пустое значение в поле id", orderId);
@@ -96,7 +96,7 @@ public class OrderAuthorizationTest {
 
     @Step("Check order exists in system")
     public void checkExistOrder(){
-        OrderNumber order = orderClient.getOrdersInfoBy(number).extract().body().as(OrdersByNumber.class).getOrders()[0];
+        Orders order = orderClient.getOrdersInfoBy(number).extract().body().as(UsersOrders.class).getOrders()[0];
 
         assertEquals("Заказ не найден в системе", orderId, order.get_id());
         assertEquals("Номер заказа не соотвествует ожидаемому", number, order.getNumber() );

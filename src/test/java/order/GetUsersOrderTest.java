@@ -123,12 +123,12 @@ public class GetUsersOrderTest {
 
     @Step("Get order id from response")
     public String getId(ValidatableResponse response){
-        return response.extract().body().as(NewOrder.class).getOrder().get_id();
+        return response.extract().body().as(Order.class).getOrder().get_id();
     }
 
     @Step("Get order number from response")
     public Integer getNumber(ValidatableResponse response){
-        return response.extract().body().as(NewOrder.class).getOrder().getNumber();
+        return response.extract().body().as(Order.class).getOrder().getNumber();
     }
 
     @Step("Check response: status code, orders count")
@@ -136,7 +136,7 @@ public class GetUsersOrderTest {
         assertNotNull("Вернулся невалидный ответ", response);
         assertTrue("В ответе вернулись некорректные код состояния ответа и статус заказа", response.assertThat().statusCode(200).extract().path("success"));
 
-        Order[] orders = response.extract().body().as(Orders.class).getOrders();
+        Orders[] orders = response.extract().body().as(UsersOrders.class).getOrders();
         assertNotNull("В ответе вернулся пустой ответ ", orders);
         assertEquals("Колиство заказазов в ответе не соотвествует ожидаемому", 0, orders.length);
     }
@@ -146,7 +146,7 @@ public class GetUsersOrderTest {
         assertNotNull("Вернулся невалидный ответ", response);
         assertTrue("В ответе вернулись некорректные код состояния ответа и статус заказа", response.assertThat().statusCode(200).extract().path("success"));
 
-        Order[] orders = response.extract().body().as(Orders.class).getOrders();
+        Orders[] orders = response.extract().body().as(UsersOrders.class).getOrders();
         assertNotNull("В ответе вернулся пустой ответ ", orders);
         assertEquals("Колиство заказазов в ответе не соотвествует ожидаемому", 1, orders.length);
         assertFalse("В ответе вернулся пустое значение в поле _id заказа", orders[0].get_id().isBlank());
@@ -161,7 +161,7 @@ public class GetUsersOrderTest {
         assertNotNull("Вернулся невалидный ответ", response);
         assertTrue("В ответе вернулись некорректные код состояния ответа и статус заказа", response.assertThat().statusCode(200).extract().path("success"));
 
-        Order[] orders = response.extract().body().as(Orders.class).getOrders();
+        Orders[] orders = response.extract().body().as(UsersOrders.class).getOrders();
         assertNotNull("В ответе вернулся пустой ответ ", orders);
         assertEquals("Колиство заказазов в ответе не соотвествует ожидаемому", count, orders.length);
     }

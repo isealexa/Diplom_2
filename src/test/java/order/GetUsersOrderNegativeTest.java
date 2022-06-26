@@ -79,9 +79,9 @@ public class GetUsersOrderNegativeTest {
     public void check(ValidatableResponse response, int expectedCode, String expectedMessage){
         assertNotNull("Вернулся невалидный ответ", response);
         assertEquals("В ответе вернулись некорректный код состояния", expectedCode, response.extract().statusCode());
-        assertFalse(response.extract().body().as(Orders.class).isSuccess());
+        assertFalse(response.extract().body().as(UsersOrders.class).isSuccess());
 
-        String actualMessage = response.extract().body().as(Orders.class).getMessage();
+        String actualMessage = response.extract().body().as(UsersOrders.class).getMessage();
         assertFalse("В ответе вернулся пустое значение в message", actualMessage.isBlank());
         assertEquals("Поле id заказаза в ответе не соотвествует ожидаемому", expectedMessage, expectedMessage);
     }

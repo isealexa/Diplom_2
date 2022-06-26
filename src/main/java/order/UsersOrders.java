@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OrdersByNumber {
+public class UsersOrders {
 
     private boolean success;
-    private OrderNumber[] orders;
+    private Orders[] orders;
+    private Integer total;
+    private Integer totalToday;
     private String message;
 }
