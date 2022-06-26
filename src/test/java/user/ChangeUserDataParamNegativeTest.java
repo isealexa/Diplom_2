@@ -5,7 +5,6 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,22 +38,11 @@ public class ChangeUserDataParamNegativeTest {
     }
 
     private UserClient userClient;
-    ValidatableResponse register;
-    String token;
 
     @Before
-    @Step("Set up client and test data")
+    @Step("Set up client")
     public void setUp(){
         userClient = new UserClient();
-        User user = User.getRandomUser();
-        register = userClient.register(user);
-        token = register.extract().path("accessToken");
-    }
-
-    @After
-    @Step("Clean test data")
-    public void clean(){
-        userClient.delete(token);
     }
 
     @Test
@@ -63,7 +51,6 @@ public class ChangeUserDataParamNegativeTest {
     public void changeUserDataWithNegativeTokenReturnError(){
         ValidatableResponse response = getResponseFor(negativeToken);
         checkResponse(response, expectedCode, expectedMessage);
-        clean();
     }
 
     @Step("Push patch request to change users data with negative token")

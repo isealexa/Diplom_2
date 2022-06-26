@@ -66,6 +66,6 @@ public class CreateOrderNoAuthTest {
         NewOrder order = response.extract().body().as(Order.class).getOrder();
         assertNotNull("В ответе вернулось пустое значение в поле number", order.getNumber());
         assertNotEquals("Номер заказа не может быть равен 0",(Integer) 0, order.getNumber());
-        assertFalse("В ответе вернулось пустое значение в поле name для названия бургера",order.getName().isBlank());
+        assertFalse("В ответе вернулось пустое значение в поле name для названия бургера", response.extract().body().as(Order.class).getName().isBlank());
     }
 }

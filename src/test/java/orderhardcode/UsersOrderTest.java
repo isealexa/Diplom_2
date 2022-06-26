@@ -8,7 +8,6 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import models.BurgerComposition;
 import order.Order;
-import order.NewOrder;
 import order.Orders;
 import order.UsersOrders;
 import org.junit.After;
@@ -52,31 +51,6 @@ public class UsersOrderTest {
         check(response, orderId, number, expectedName);
     }
 
-    @Test
-    @DisplayName("Get 50 user's orders with authorization return success")
-    @Description("This tests checks getting success response and show 50 user's orders when ware created 50 push get-request with authorization to see 50 user's orders")
-    public void getFiftyUsersOrdersWithAuthorizationReturnSuccess(){
-        String burger = new BurgerComposition().getMiniBurger();
-        int createdCount = 50;
-        int expectedCount = 50;
-        createOrder(burger, createdCount);
-        ValidatableResponse response = getUserOrder();
-        check(response, expectedCount);
-    }
-
-    @Test
-    @DisplayName("Get 50 user's orders with authorization return success")
-    @Description("This tests checks getting success response and show 50 user's orders when ware created more than 50 push get-request with authorization to see user's order")
-    public void getFiftyUsersOrdersWithAuthorizationWhenWereCreatedMoreFiftyReturnSuccess(){
-        String burger = new BurgerComposition().getBun();
-        int createdCount = 51;
-        int expectedCount = 50;
-        createOrder(burger, createdCount);
-        ValidatableResponse response = getUserOrder();
-        check(response, expectedCount);
-
-    }
-
     @Step("Push post-request to create order with authorization")
     public ValidatableResponse createOrder(String burger){
         return orderClient.createOrder(token, burger);
@@ -116,15 +90,5 @@ public class UsersOrderTest {
         assertEquals("Поле id заказаза в ответе не соотвествует ожидаемому", orderId, orders[0].get_id());
         assertEquals("Поле number номер заказа в ответе не соотвествует ожидаемому", number,  orders[0].getNumber());
         assertEquals("Поле name название бургера в ответе не соотвествует ожидаемому", expectedName,  orders[0].getName());
-    }
-
-    @Step("Check response: status code, orders count")
-    public void check(ValidatableResponse response, int count){
-        assertNotNull("Вернулся невалидный ответ", response);
-        assertTrue("В ответе вернулись некорректные код состояния ответа и статус заказа", response.assertThat().statusCode(200).extract().path("success"));
-
-        Orders[] orders = response.extract().body().as(UsersOrders.class).getOrders();
-        assertNotNull("В ответе вернулся пустой ответ ", orders);
-        assertEquals("Колиство заказазов в ответе не соотвествует ожидаемому", count, orders.length);
     }
 }

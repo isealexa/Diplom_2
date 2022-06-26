@@ -56,18 +56,7 @@ public class GetUsersOrderTest {
         check(response);
     }
 
-    @Test
-    @DisplayName("Get 50 user's orders with authorization return success")
-    @Description("This tests checks getting success response and show 50 user's orders when ware created 50 push get-request with authorization to see 50 user's orders")
-    public void getFiftyUsersOrdersWithAuthorizationReturnSuccess(){
-        IngredientsIds burger = setBurger("bun");
-        int createdCount = 50;
-        int expectedCount = 50;
-        createOrders(burger, createdCount);
-        ValidatableResponse response = getUserOrder();
-        check(response, expectedCount);
-    }
-
+    //падает потому что в документации указано, что вернёт только 50, а по факту возвращает все 51
     @Test
     @DisplayName("Get 50 user's orders with authorization return success")
     @Description("This tests checks getting success response and show 50 user's orders when ware created more than 50 push get-request with authorization to see user's order")

@@ -50,7 +50,6 @@ public class ChangeUserDataNegativeTest {
         String anotherUserEmail = getAnotherUserEmail(anotherUserData);
         ValidatableResponse response = getResponseFor(anotherUserEmail);
         checkResponse(response, expectedCode, expectedMessage);
-        clean();
     }
 
     @Step("Get user data with someone else's email")
