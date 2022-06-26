@@ -1,17 +1,16 @@
-package orderhardcode;
+package order;
 
 import client.OrderClient;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
-import order.Orders;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class UsersOrderNegativeTest {
+public class GetUsersOrderNegativeTest {
 
     private OrderClient orderClient;
 
