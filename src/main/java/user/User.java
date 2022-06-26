@@ -28,7 +28,7 @@ public class User {
 
     public static User getRandomUser(){
         Faker faker = new Faker();
-        return new User(faker.name().username() +  RandomStringUtils.randomAlphanumeric(6) + "mail@testDomain.test",
+        return new User( getRandomEmail(),
                 RandomStringUtils.randomAlphanumeric(6),
                 faker.name().fullName()
         );
@@ -36,7 +36,7 @@ public class User {
 
     public static User getEmptyField(String field){
         Faker faker = new Faker();
-        String email = faker.name().firstName() + "mail@testDomain.test";
+        String email = getRandomEmail();
         String password = RandomStringUtils.randomAlphanumeric(6);
         String name = faker.name().firstName();
 
@@ -55,7 +55,7 @@ public class User {
 
     public static User getNullField(String field){
         Faker faker = new Faker();
-        String email = faker.name().firstName() + "mail@testDomain.test";
+        String email = getRandomEmail();
         String password = RandomStringUtils.randomAlphanumeric(6);
         String name = faker.name().firstName();
 
@@ -70,5 +70,10 @@ public class User {
                 name = null;
         }
         return new User(email, password, name);
+    }
+
+    private static String getRandomEmail(){
+        Faker faker = new Faker();
+        return faker.name().username() +  RandomStringUtils.randomAlphanumeric(6) + "@" + RandomStringUtils.randomAlphabetic(6) + "." + RandomStringUtils.randomAlphabetic(4);
     }
 }
