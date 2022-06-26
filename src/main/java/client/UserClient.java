@@ -51,11 +51,15 @@ public class UserClient extends RestAssuredClient{
                 .then().log().all();
     }
 
-    public ValidatableResponse delete(String token) {
-        return getReqSpec()
-                .header("Authorization", token)
-                .when()
-                .delete(USER)
-                .then().log().all();
+    public void delete(String token) {
+         getReqSpec()
+                 .header("Authorization", token)
+                 .when()
+                 .delete(USER)
+                 .then().log().all()
+                 .assertThat()
+                 .statusCode(202)
+                 .extract()
+                 .path("success");
     }
 }

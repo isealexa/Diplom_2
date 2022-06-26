@@ -118,9 +118,7 @@ public class RegisterUserTest {
 
     @Step("Delete user")
     public void delete(String token){
-        ValidatableResponse deletedResponse = userClient.delete(token);
-        assertEquals("При удалении юзера в ответе вернулся другой код состояния", 202, deletedResponse.extract().statusCode());
-        assertTrue("При удалении юзера в ответе вернулось некорректное значение для поля success", deletedResponse.extract().body().as(Token.class).isSuccess());
+        userClient.delete(token);
     }
 
     @Step("Check status code and body is not NULL in response")

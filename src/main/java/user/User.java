@@ -28,9 +28,9 @@ public class User {
 
     public static User getRandomUser(){
         Faker faker = new Faker();
-        return new User(faker.name().firstName() + "mail@testDomain.test",
+        return new User(faker.name().username() +  RandomStringUtils.randomAlphanumeric(6) + "mail@testDomain.test",
                 RandomStringUtils.randomAlphanumeric(6),
-                faker.name().firstName()
+                faker.name().fullName()
         );
     }
 
