@@ -83,8 +83,8 @@ public class CreateOrderNoAuthNegativeTest {
     @Step("Set burgers ingredients")
     public IngredientsIds setBurger(String type){
         Ingredients ingredients = getIngredients();
-        Ingredient bun = findIngredientBy(type, ingredients);
-        String[] composition = {bun.get_id()};
+        Ingredient ingredient = findIngredientBy(type, ingredients);
+        String[] composition = {ingredient.get_id()};
         return new IngredientsIds(composition);
     }
 
