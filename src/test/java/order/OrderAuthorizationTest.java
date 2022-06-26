@@ -68,8 +68,7 @@ public class OrderAuthorizationTest {
     public void createOrderBurgerWithAuthorizationReturnSuccess(){
         ValidatableResponse newOrder = createOrder();
         checkResponseAndSetNumberAndIdFor(newOrder);
-        OrderNumber[] order = getOrder(number);
-        checkExist(order);
+        checkExistOrder();
     }
 
     @Step("Push post-request to create order with authorization and get response")
@@ -77,10 +76,6 @@ public class OrderAuthorizationTest {
         return orderClient.createOrder(token, burger);
     }
 
-    @Step("Push get-request to get order")
-    public OrderNumber[] getOrder(Integer number){
-        return orderClient.getOrdersInfoBy(number).extract().body().as(OrdersByNumber.class).getOrders();
-    }
 
     @Step("Check response fields and name, price and set order, number id")
     public void checkResponseAndSetNumberAndIdFor(ValidatableResponse response){
@@ -97,22 +92,11 @@ public class OrderAuthorizationTest {
     }
 
     @Step("Check order exists in system")
-    public void checkExist(OrderNumber[] orders){
-        assertNotNull("Вернулся пустой массив заказав на запрос списка всех заказов в системе", orders);
-        boolean orderExist = false;
-        String id = null;
-        String name = null;
+    public void checkExistOrder(){
+        OrderNumber order = orderClient.getOrdersInfoBy(number).extract().body().as(OrdersByNumber.class).getOrders()[0];
 
-        for(OrderNumber order: orders){
-            if (order.getNumber().equals(number)) {
-                orderExist = true;
-                name = order.getName();
-                id = order.get_id();
-            }
-        }
-
-        assertTrue("Заказ не найден в системе", orderExist);
-        assertEquals("Id заказа не соотвествует ожидаемому", orderId, id);
-        assertEquals("Название бургера не соотвествует ожидаемому", expectedName, name);
+        assertEquals("Заказ не найден в системе", orderId, order.get_id());
+        assertEquals("Номер заказа не соотвествует ожидаемому", number, order.getNumber() );
+        assertEquals("Название бургера не соотвествует ожидаемому", expectedName, order.getName());
     }
 }
