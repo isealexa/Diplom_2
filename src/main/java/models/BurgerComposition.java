@@ -58,10 +58,6 @@ public class BurgerComposition {
         return "{\"ingredients\":[\"61c0c5a71d1f82001bdaaa6c\",\"61c0c5a71d1f82001bdaaa6c\"]}"; //bun: Краторная булка N-200i 2 шт
     }
 
-    public String getIncorrect(){
-        return "{\"ingredients\":[\"61c01bi7y70jnkj001bdaa\"]}";
-    }
-
     public Integer getPrice(String burger){
         Integer price;
 
