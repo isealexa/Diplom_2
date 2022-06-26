@@ -6,7 +6,6 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
-import models.BurgerComposition;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,12 +25,12 @@ public class OrderNegativeParamTest {
         this.description = description;
     }
 
-    @Parameterized.Parameters(name = "The test {index} checks receive error when attempt to create order: {3}")
+    @Parameterized.Parameters(name = "The test {index} checks receive error when attempt to create order: {1}")
     public static Object[][] getOrderParam(){
         return new Object[][] {
                 {"", "with empty body request"},
-                {new BurgerComposition().getEmptyJson(), "with empty json body request"},
-                {new BurgerComposition().getNoIngredients(), "with empty incorrect list"},
+                {"{}", "with empty json body request"},
+                {"{\"ingredients\":[]}", "with empty incorrect list"},
         };
     }
 
