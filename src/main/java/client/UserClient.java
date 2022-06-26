@@ -11,7 +11,7 @@ public class UserClient extends RestAssuredClient{
     private final String USER = AUTH + "/user";
 
     public ValidatableResponse register(User user) {
-        return getReqSpec()
+        return reqSpec()
                 .body(user)
                 .when()
                 .post(REGISTER)
@@ -19,7 +19,7 @@ public class UserClient extends RestAssuredClient{
     }
 
     public ValidatableResponse login(User user) {
-        return getReqSpec()
+        return reqSpec()
                 .body(user)
                 .when()
                 .post(LOGIN)
@@ -27,7 +27,7 @@ public class UserClient extends RestAssuredClient{
     }
 
     public ValidatableResponse getUserData(String token) {
-        return getReqSpec()
+        return reqSpec()
                 .header("Authorization", token)
                 .when()
                 .get(USER)
@@ -35,7 +35,7 @@ public class UserClient extends RestAssuredClient{
     }
 
     public ValidatableResponse changeUser(String data, String token) {
-        return getReqSpec()
+        return reqSpec()
                 .header("Authorization", token)
                 .body(data)
                 .when()
@@ -44,7 +44,7 @@ public class UserClient extends RestAssuredClient{
     }
 
     public ValidatableResponse changeUserWithoutToken(String data) {
-        return getReqSpec()
+        return reqSpec()
                 .body(data)
                 .when()
                 .patch(USER)
@@ -52,7 +52,7 @@ public class UserClient extends RestAssuredClient{
     }
 
     public void delete(String token) {
-         getReqSpec()
+         reqSpec()
                  .header("Authorization", token)
                  .when()
                  .delete(USER)

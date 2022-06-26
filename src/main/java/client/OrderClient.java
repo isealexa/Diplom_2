@@ -10,14 +10,15 @@ public class OrderClient extends RestAssuredClient {
     private final String NUMBER = ORDERS + "/{number}";
 
     public ValidatableResponse getIngredients() {
-        return getReqSpec()
+        return reqSpec()
                 .when()
                 .get(INGREDIENTS)
                 .then().log().all();
     }
 
-    public ValidatableResponse createOrder(IngredientsIds order) {
-        return getReqSpec()
+    public ValidatableResponse createOrder(IngredientsIds order, String token) {
+        return reqSpec()
+                .header("Authorization", token)
                 .body(order)
                 .when()
                 .post(ORDERS)
@@ -25,7 +26,7 @@ public class OrderClient extends RestAssuredClient {
     }
 
     public ValidatableResponse createOrder(String token, String order) {
-        return getReqSpec()
+        return reqSpec()
                 .header("Authorization", token)
                 .body(order)
                 .when()
@@ -34,7 +35,7 @@ public class OrderClient extends RestAssuredClient {
     }
 
     public ValidatableResponse createOrder(String order) {
-        return getReqSpec()
+        return reqSpec()
                 .body(order)
                 .when()
                 .post(ORDERS)
@@ -42,14 +43,14 @@ public class OrderClient extends RestAssuredClient {
     }
 
     public ValidatableResponse createOrder() {
-        return getReqSpec()
+        return reqSpec()
                 .when()
                 .post(ORDERS)
                 .then().log().all();
     }
 
     public ValidatableResponse getOrder(String token) {
-        return getReqSpec()
+        return reqSpec()
                 .header("Authorization", token)
                 .when()
                 .get(ORDERS)
@@ -57,14 +58,14 @@ public class OrderClient extends RestAssuredClient {
     }
 
     public ValidatableResponse getOrder() {
-        return getReqSpec()
+        return reqSpec()
                 .when()
                 .get(ORDERS)
                 .then().log().all();
     }
 
     public ValidatableResponse getOrdersInfoBy(Integer number) {
-        return getReqSpec()
+        return reqSpec()
                 .pathParam("number", number)
                 .when()
                 .get(NUMBER)
