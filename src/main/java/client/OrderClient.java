@@ -54,4 +54,11 @@ public class OrderClient extends RestAssuredClient {
                 .get(ORDERS)
                 .then().log().all();
     }
+
+    public ValidatableResponse getOrder() {
+        return getReqSpec()
+                .when()
+                .get(ORDERS)
+                .then().log().all();
+    }
 }

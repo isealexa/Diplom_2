@@ -70,8 +70,7 @@ public class UsersOrderTest {
     @Step("Check response: status code, orders count, order id and price")
     public void check(ValidatableResponse response, String orderId, Integer number){
         assertNotNull("Вернулся невалидный ответ", response);
-        assertEquals("В ответе вернулись некорректный код состояния", 200, response.extract().statusCode());
-        assertTrue(response.extract().body().as(Orders.class).isSuccess());
+        assertTrue("В ответе вернулись некорректные код состояния ответа и статус заказа", response.assertThat().statusCode(200).extract().path("success"));
 
         Order[] orders = response.extract().body().as(Orders.class).getOrders();
         assertNotNull("В ответе вернулся пустой ответ ", orders);
