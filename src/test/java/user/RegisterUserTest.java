@@ -70,6 +70,10 @@ public class RegisterUserTest {
         boolean status = body.isSuccess();
         String actualMessage = body.getMessage();
 
+        if(actualCode >= 200 && actualCode < 300){
+            String theSameUserToken = body.getAccessToken();
+            userClient.delete(theSameUserToken);
+        }
         checkResponse(body, expectedCode, actualCode);
         checkErrorMessage(status, expectedMessage, actualMessage);
     }

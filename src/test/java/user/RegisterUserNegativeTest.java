@@ -83,6 +83,10 @@ public class RegisterUserNegativeTest {
         String actualMessage = body.getMessage();
 
         assertNotNull("В ответе вернулось пустое Body", body);
+        if(actualCode >= 200 && actualCode < 300){
+            String token = body.getAccessToken();
+            userClient.delete(token);
+        }
         assertEquals("В ответе вернулся другой код состояния", expectedCode, actualCode);
         assertFalse("В ответе вернулось некорректное значение для поля success", status);
         assertFalse("В ответе вернулось пустое значение в поле message", actualMessage.isBlank());
